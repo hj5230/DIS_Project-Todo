@@ -1,0 +1,68 @@
+{% extends 'layout.html' %}
+{% block content %}
+	<!-- Title -->
+	<div class="bs-example" data-example-id="simple-page-header">
+		<div class="page-header">
+			<h1>密码本&emsp;<small>Codebook</small></h1>
+		</div>
+	</div>
+
+	<div class="panel panel-default">
+		<!-- Search -->
+		<div class="panel-body">
+			<form method="post" novalidate>
+				{% csrf_token %}
+				<div class="col-xs-11">
+					<input class="form-control" placeholder="搜索标签" style="margin-right: 15px" name="search" autocomplete="off">
+				</div>
+				<button class="btn btn-primary" id="search" type="submit">
+					<span class="glyphicon glyphicon-search"></span>
+				</button>
+				<a class="btn btn-success" href="/codebook/addtag/">
+					<span class="glyphicon glyphicon-plus-sign"></span>
+				</a>
+			</form>
+		</div>
+
+		<!-- Comment Field -->
+		{% comment %} <div class="panel-body">
+			<p>注释 丨 Notes</p>
+		</div> {% endcomment %}
+		
+		<!-- Table -->
+		<table class="table">
+			<thead>
+				<tr>
+					<th>&emsp;&emsp;</th>
+					<th>标签</th>
+					<th>账号</th>
+					<th>密码</th>
+					<th>时间戳</th>
+					<th>&emsp;&emsp;</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for tag in tags %}
+					<tr>
+						<td>&emsp;&emsp;</td>
+						<td>{{tag.tag}}</td>
+						<td>{{tag.unm}}</td>
+						<td>{{tag.pwd}}</td>
+						<td>{{tag.tsp}}</td>
+						<td>
+							<a class="btn btn-default btn-xs" href="/codebook/deltag/{{tag.id}}/">
+								<span class="glyphicon glyphicon-trash"></span>
+							</a>
+						</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+		
+		<!-- Footer -->
+		<div class="panel-footer">
+			<div class="text-right">
+			</div>
+		</div>
+	</div>
+{% endblock %}

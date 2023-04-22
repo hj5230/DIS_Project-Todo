@@ -1,0 +1,26 @@
+{% extends 'layout.html' %}
+{% block content %}
+<div class="bs-example" data-example-id="simple-page-header">
+	<div class="page-header">
+		<h1>
+			笔记本&emsp;
+			<small>Notebook</small>
+			<a class="btn btn-success" style="float:right;" href="/notebook/add/">
+				<span class="glyphicon glyphicon-plus-sign"></span>
+			</a>
+		</h1>
+	</div>
+</div>
+<div class="bs-example" data-example-id="simple-thumbnails">
+{% for note in notes %}
+	<div class="well well-lg">
+		<h4>{{note.head}}</h4>
+		<p>{{note.body}}</p>
+	</div>
+{% endfor %}
+</div>
+{% endblock content %}
+{% block srcipt %}
+<script>
+</script>
+{% endblock srcipt %}
