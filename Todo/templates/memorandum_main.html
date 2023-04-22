@@ -7,7 +7,7 @@
 {% block content %}
 	<div class="bs-example" data-example-id="simple-page-header">
 		<div class="page-header">
-			<h1>备忘录&emsp;<small>Memorandum</small></h1>
+			<h1>Memorandum</h1>
 		</div>
 	</div>
 	<div class="bs-example" data-example-id="simple-thumbnails">
@@ -17,8 +17,8 @@
 					<div class="caption">
 						<form method="post" novalidate>
 							{% csrf_token %}
-							<input type="text" name="title" class="form-control" style="margin-bottom: 15px" placeholder="标题" autocomplete="off">
-							<textarea type="text" name="content" id="content" class="form-control" style="margin-bottom: 15px" placeholder="内容" autocomplete="off"></textarea>
+							<input type="text" name="title" class="form-control" style="margin-bottom: 15px" placeholder="Title" autocomplete="off">
+							<textarea type="text" name="content" id="content" class="form-control" style="margin-bottom: 15px" placeholder="Content" autocomplete="off"></textarea>
 							<p class="text-right">
 								<button class="btn btn-sm btn-success" id="addmemo" type="submit">
 									<span class="glyphicon glyphicon-plus-sign"></span>
@@ -58,18 +58,3 @@
     </div>
   </div>
 {% endblock %}
-{% block script %}
-<script>
-	alert('未完成，缺少日期选择器和剩余时间通知')
-	let status_tag = document.getElementsByClassName('status');
-	let a = document.createElement('a');
-	let eve = new MouseEvent('click');
-	for(let i = 0; i < status_tag.length; ++i) {
-		status_tag[i].onclick = () => {
-			let url = "/memorandum/closer/" + status_tag[i].id;
-			a.setAttribute('href', url);
-			a.dispatchEvent(eve);
-		}
-	}
-</script>
-{% endblock script %}

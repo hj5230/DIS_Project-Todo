@@ -21,7 +21,7 @@ class LoginForm(forms.Form):
         widget=forms.PasswordInput(attrs={
             'class': 'form-control',
             'style': 'margin-bottom: 15px',
-            'placeholder': '密码',
+            'placeholder': 'password',
         }),
     )
     def cleanPassword(self):
@@ -29,6 +29,10 @@ class LoginForm(forms.Form):
         return md5(pwd)
 
 def login(request):
+    # if no user in db, create a deafult user have uid: uid, pwd: password
+    if not models.User.objects.exists():
+        default_user = models.User(uid="uid", pwd="password")
+        default_user.save()
     if request.method == 'GET':
         form = LoginForm()
         return render(request, 'login.html', {'form': form})
@@ -36,7 +40,7 @@ def login(request):
     if form.is_valid():
         admin = models.User.objects.filter(**form.cleaned_data).first()
         if not admin:
-            form.add_error('pwd', '用户名或密码错误')
+            form.add_error('pwd', 'Username and password do not match')
             return render(request, 'login.html', {'form': form})
         request.session['user'] = {'uid': admin.uid}
         request.session.set_expiry(60 * 60 * 2)
@@ -108,7 +112,7 @@ def memorandum_main(request):
     title = request.POST.get('title')
     content = request.POST.get('content')
     if len(title) != 0 or len(content) != 0:
-        timeStamp = getDateTime() # 改
+        timeStamp = getDateTime()
         models.Memorandum.objects.create(title=title, content=content, timeStamp=timeStamp)
     return redirect('/memorandum/main/')
 
@@ -131,9 +135,6 @@ def memorandum_done(request, id):
     models.Memorandum.objects.filter(id=id).update(status=True)
     return redirect('/memorandum/main/')
 
-def mycv(request):
-    return render(request, 'mycv.html')
-
 class NoteModel(forms.ModelForm):
     class Meta:
         model = models.Notebook
@@ -153,12 +154,6 @@ def notebook_main(request):
     notes = models.Notebook.objects.all()
     if request.method == 'GET':
         return render(request, 'notebook_main.html', {'notes': notes})
-    # head = request.POST.get('head')
-    # body = request.POST.get('body')
-    # if len(head) != 0 or len(body) != 0:
-    #     timeStamp = getDateTime()
-    #     models.Memorandum.objects.create(head=head, body=body, timeStamp=timeStamp)
-    # return redirect('/memorandum/main/')
 
 def notebook_add(request):
     if request.method == 'GET':
