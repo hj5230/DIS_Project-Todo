@@ -8,49 +8,6 @@ from Todo.utils.functions import *
 def dashboard(request):
     return render(request, 'dashboard.html')
 
-class LoginForm(forms.Form):
-    uid = forms.CharField(
-        widget=forms.TextInput(attrs={
-            'class': 'form-control',
-            'style': 'margin-bottom: 15px',
-            'placeholder': 'UID',
-            'autocomplete': 'off',
-        }),
-    )
-    pwd = forms.CharField(
-        widget=forms.PasswordInput(attrs={
-            'class': 'form-control',
-            'style': 'margin-bottom: 15px',
-            'placeholder': 'password',
-        }),
-    )
-    def cleanPassword(self):
-        pwd = self.cleaned_data.get('pwd')
-        return md5(pwd)
-
-def login(request):
-    # if no user in db, create a deafult user have uid: uid, pwd: password
-    if not models.User.objects.exists():
-        default_user = models.User(uid="uid", pwd="password")
-        default_user.save()
-    if request.method == 'GET':
-        form = LoginForm()
-        return render(request, 'login.html', {'form': form})
-    form = LoginForm(data=request.POST)
-    if form.is_valid():
-        admin = models.User.objects.filter(**form.cleaned_data).first()
-        if not admin:
-            form.add_error('pwd', 'Username and password do not match')
-            return render(request, 'login.html', {'form': form})
-        request.session['user'] = {'uid': admin.uid}
-        request.session.set_expiry(60 * 60 * 2)
-        return redirect('/dashboard/')
-    return render(request, 'login.html', {'form': form})
-
-def logout(request):
-    request.session.clear()
-    return redirect('/login/')
-
 '''codebook'''
 class TagModel(forms.ModelForm):
     class Meta:
