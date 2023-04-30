@@ -1,25 +1,22 @@
-{% extends 'layout.html' %}
-{% block content %}
+{% extends 'layout.html' %} {% load static %} {% block content %}
 <div class="bs-example" data-example-id="simple-page-header">
-	<div class="page-header">
-		<h1>
-			Notebook
-			<a class="btn btn-success" style="float:right;" href="/notebook/add/">
-				<span class="glyphicon glyphicon-plus-sign"></span>
-			</a>
-		</h1>
-	</div>
+  <div class="page-header">
+    <h1>
+      Notebook
+      <a class="btn btn-success" style="float: right" href="/notebook/add/">
+        <span class="glyphicon glyphicon-plus-sign"></span>
+      </a>
+    </h1>
+  </div>
 </div>
 <div class="bs-example" data-example-id="simple-thumbnails">
-{% for note in notes %}
-	<div class="well well-lg">
-		<h4>{{note.head}}</h4>
-		<p>{{note.body}}</p>
-	</div>
-{% endfor %}
+  {% for note in notes %}
+  <div class="well well-lg">
+    <h4 class="title">{{note.head}}</h4>
+    <p>{{note.body}}</p>
+  </div>
+  {% endfor %}
 </div>
-{% endblock content %}
-{% block srcipt %}
-<script>
-</script>
-{% endblock srcipt %}
+{% endblock content %} {% block script %}
+<script src="{% static 'js/wiki_api.js' %}"></script>
+{% endblock script %}

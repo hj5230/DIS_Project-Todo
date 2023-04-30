@@ -1,7 +1,7 @@
 const express = require("express");
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
-const cors = require('cors');
+const cors = require("cors");
 
 const app = express();
 
@@ -33,18 +33,21 @@ app.get("/gettemp", async (req, res) => {
   });
 });
 
-app.post("/getwiki", async (req, res) => {
-  const { item } = req.body
+app.get("/getwiki/:item", async (req, res) => {
+  const { item } = req.params;
   import("node-fetch").then(({ default: fetch }) => {
-    (async() => {
+    (async () => {
       const wikiPro = await fetch(
-        `https://en.wikipedia.org/api/rest_v1/page/summary/${item}`
+        `https://en.wikipedia.org/api/rest_v1/page/summary/${decodeURIComponent(
+          item
+        )}`
       );
       const wikiRes = await wikiPro.json();
       const extractHTML = wikiRes.extract_html;
-      res.json(extractHTML)
+      if (extractHTML) res.json(extractHTML);
+      else res.json("<p>Nothing was found from wiki</p>");
     })();
-  })
+  });
 });
 
 module.exports = app;
