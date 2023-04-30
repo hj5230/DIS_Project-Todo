@@ -1,11 +1,26 @@
-{% extends 'layout.html' %}
-{% block content %}
-	<div class="jumbotron">
-		<h1>Hello, world!</h1>
-		<p>...</p>
-		<p><a class="btn btn-primary btn-lg" href="javascript:void(0)" role="button">Learn more</a></p>
-	</div>
-{% endblock %}
-{% block script %}
-{% comment %} <script src="{% static 'js/jquery-3.6.0.min.js' %}"></script> {% endcomment %}
+{% extends 'layout.html' %} {% load static %} {% block content %}
+<div class="jumbotron" id="jbt">
+  <div style="display: flex; align-items: baseline">
+    <span style="margin: 0">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="48"
+        height="48"
+        fill="currentColor"
+        class="bi bi-thermometer-half"
+        viewBox="0 0 16 16"
+      >
+        <path
+          d="M9.5 12.5a1.5 1.5 0 1 1-2-1.415V6.5a.5.5 0 0 1 1 0v4.585a1.5 1.5 0 0 1 1 1.415z"
+        />
+        <path
+          d="M5.5 2.5a2.5 2.5 0 0 1 5 0v7.55a3.5 3.5 0 1 1-5 0V2.5zM8 1a1.5 1.5 0 0 0-1.5 1.5v7.987l-.167.15a2.5 2.5 0 1 0 3.333 0l-.166-.15V2.5A1.5 1.5 0 0 0 8 1z"
+        />
+      </svg>
+    </span>
+    <h1 style="margin-left: 30px">Loading...</h1>
+  </div>
+</div>
+{% endblock %} {% block script %}
+<script src="{% static 'js/weather_api.js' %}"></script>
 {% endblock script %}
